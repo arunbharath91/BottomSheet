@@ -1,0 +1,101 @@
+/*bottomsheet*/
+bottomsheet {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  background: rgba(0,0,0,.288);
+  -webkit-transition: background 0.5s ease-in;
+  -ms-transition: background 0.5s ease-in;
+  transition: background 0.5s ease-in;
+}
+
+.bottomsheet-container {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  box-shadow: 0 8px 10px -5px rgba(0,0,0,.2), 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12);
+  padding: 20px;
+  min-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  outline: 0;
+  max-height: 80vh;
+  min-height: 300px;
+  overflow: auto;
+  background: #fff;
+  color: rgba(0,0,0,.87);
+  position: absolute;
+  bottom: -500px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  transition: all 0.7s ease-in;
+}
+
+*[bottomsheet-close] {
+  z-index: 1;
+  outline: none;
+  margin: 0;
+  background: #ccc;
+  border: 0;
+  position: absolute;
+  right: 0;
+  font-size: 18px;
+  top: 0;
+  cursor: pointer;
+  border-bottom-left-radius: 15px;
+}
+
+.bottomsheet-container.lg {
+  min-width: 512px;
+  max-width: 70%;
+}
+
+.bottomsheet-container.md {
+  min-width: 412px;
+  max-width: 50%;
+}
+
+.bottomsheet-container.sm {
+  min-width: 312px;
+  max-width: 35%;
+}
+
+.loader {
+  width: 100%;
+  background: #f6f6f6;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}
+
+.loader::after {
+  content: '';
+  border: 5px solid #f3f3f3;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+  border-top: 5px solid #555;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: calc(50% - 50px);
+  top: calc(50% - 50px);
+  transform: translate(-50%, -50%);
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
