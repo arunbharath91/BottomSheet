@@ -49,8 +49,7 @@ export class BottomSheet {
 
   protected projectTemplate(bottomsheet: HTMLElement) {
     const templateContent = (document.querySelector(`template[bottom-sheet-ref="${this.source}"]`) as HTMLElement);
-    const clone = templateContent.content.cloneNode(true);
-    (bottomsheet.querySelector(`.view-container`) as HTMLElement).append(clone);
+    (bottomsheet.querySelector(`.view-container`) as HTMLElement).innerHTML = templateContent.innerHTML;
   }
 
   protected httpReq(url: RequestInfo, methods: RequestInit, bindElement: HTMLElement) {
