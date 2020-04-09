@@ -16,7 +16,7 @@ export class BottomSheet {
 
     const bottomsheet = document.createElement('bottomsheet');
     bottomsheet.setAttribute("source", `${this.source}`);
-    bottomsheet.style.zIndex = sheetInstanceIndex;
+    bottomsheet.style.zIndex = sheetInstanceIndex.toString();
     bottomsheet.innerHTML = `<div class="bottomsheet-container ${size}">
     <button type="button" class="bt-close" bottomsheet-close>	&#215;</button>
     <div class="view-container">
