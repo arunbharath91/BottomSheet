@@ -26,7 +26,7 @@ export class BottomSheet {
     document.body.prepend(bottomsheet);
 
     setTimeout(() => {
-      (bottomsheet.querySelector(`.bottomsheet-container`) as HTMLElement).style.bottom = 0;
+      (bottomsheet.querySelector(`.bottomsheet-container`) as HTMLElement).style.bottom = '0';
     }, 1,
       (validSoure) ? this.httpReq(`${this.source}`, {
         mode: 'no-cors',
