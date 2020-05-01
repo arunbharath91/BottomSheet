@@ -20,10 +20,17 @@
  configuration :
  1) supports mutiple instance
  2) ajax load (or) template load  Ref: bottomsheet-config.ts
+ 3) if you pass url 'assets/templates/modal.html' it will load using ajax
+ 4) if you pass template id 'customer-model' it will load template document to modal
+ 5) configuration : new BottomSheet('assets/templates/modal.html', {size: 'lg', onOpen: ()=>{
+     console.log('open');
+   }
+   }}) || new BottomSheet("customer-model", {size: 'lg', })
+ 6) onOpen and onClose event support
  </code>
  </pre>
 
-  <button type="button" class="btn btn-primary" onclick="openSheet()">show modal</button>
+  <button type="button" class="btn btn-primary" onclick="openSheet()">show sheet</button>
 
 
   <template bottom-sheet-ref="customer-model">

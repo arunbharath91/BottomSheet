@@ -1,23 +1,32 @@
+interface IOptions {
+  size?: string;
+  onOpen ? : Function;
+  onClose ? : Function;
+}
 
 let sheetInstanceIndex: number = 1000;
+
+const defaultOption: IOptions = {
+  size: 'lg'
+}
 export class BottomSheet {
   private source: string;
-  constructor(source: string) {
-    sheetInstanceIndex++;
+  private options: IOptions;
+  constructor(source: string, options?: IOptions) {
     this.source = source;
+    this.options = {...defaultOption, ...options};
+    sheetInstanceIndex++;
+    this.initBottomSheet();
   }
 
-  public setSize(size: string = 'md') {
-    this.initBottomSheet(size);
-  }
-
-  protected initBottomSheet(size: string) {
+  protected initBottomSheet() {
     const validSoure: boolean = (this.source.split('.').pop() as string).toLowerCase() === 'html';
 
+    if (this.options.onOpen) { this.options.onOpen.call(this) };
     const bottomsheet = document.createElement('bottomsheet');
     bottomsheet.setAttribute("source", `${this.source}`);
     bottomsheet.style.zIndex = sheetInstanceIndex.toString();
-    bottomsheet.innerHTML = `<div class="bottomsheet-container ${size}">
+    bottomsheet.innerHTML = `<div class="bottomsheet-container ${this.options.size}">
     <button type="button" class="bt-close" bottomsheet-close>	&#215;</button>
     <div class="view-container">
 
@@ -41,6 +50,7 @@ export class BottomSheet {
   protected registerCloseEvent(bottomsheet: HTMLElement) {
     (bottomsheet.querySelector('.bt-close') as HTMLElement).addEventListener('click', () => {
       setTimeout(() => {
+        if (this.options.onClose) { this.options.onClose.call(this) };
         bottomsheet.remove();
         sheetInstanceIndex--;
       }, 500, (bottomsheet.querySelector(`.bottomsheet-container`) as HTMLElement).removeAttribute('style'));
