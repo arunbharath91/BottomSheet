@@ -1,5 +1,5 @@
 # BottomSheet
- **BottomSheet plugin is added **Supports most of the screen sizes including tablets and mobiles. Multiple Instance **licenced under the category of open-source free licence crendentials. **The information like company name or anything provided in this plugin is only an fake one.
+**BottomSheet plugin is added **Supports most of the screen sizes including tablets and mobiles. Multiple Instance **licenced under the category of open-source free licence crendentials. **The information like company name or anything provided in this plugin is only an fake one.
  
 live demo:http://arunbharath.c1.biz/PluginDemo/BottomSheet/
 
