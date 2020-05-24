@@ -1,20 +1,24 @@
 interface IOptions {
   size?: string;
-  onOpen ? : Function;
-  onClose ? : Function;
+  onOpen?: Function;
+  onClose?: Function;
+  overlayClick?: boolean;
 }
 
 let sheetInstanceIndex: number = 1000;
 
 const defaultOption: IOptions = {
-  size: 'lg'
+  size: 'lg',
+  overlayClick: false
 }
 export class BottomSheet {
   private source: string;
   private options: IOptions;
+  private bottomSheet!: HTMLElement;
+  private bottomSheetContainer!: HTMLElement;
   constructor(source: string, options?: IOptions) {
     this.source = source;
-    this.options = {...defaultOption, ...options};
+    this.options = { ...defaultOption, ...options };
     sheetInstanceIndex++;
     this.initBottomSheet();
   }
@@ -23,41 +27,53 @@ export class BottomSheet {
     const validSoure: boolean = (this.source.split('.').pop() as string).toLowerCase() === 'html';
 
     if (this.options.onOpen) { this.options.onOpen.call(this) };
-    const bottomsheet = document.createElement('bottomsheet');
-    bottomsheet.setAttribute("source", `${this.source}`);
-    bottomsheet.style.zIndex = sheetInstanceIndex.toString();
-    bottomsheet.innerHTML = `<div class="bottomsheet-container ${this.options.size}">
+    this.bottomSheet = document.createElement('bottomsheet');
+    this.bottomSheet.setAttribute("source", `${this.source}`);
+    this.bottomSheet.style.zIndex = sheetInstanceIndex.toString();
+    this.bottomSheet.innerHTML = `<div class="bottomsheet-container ${this.options.size}">
     <button type="button" class="bt-close" bottomsheet-close>	&#215;</button>
     <div class="view-container">
 
     </div>
     </div>`;
-    document.body.prepend(bottomsheet);
+    document.body.prepend(this.bottomSheet);
+    this.bottomSheetContainer = (this.bottomSheet.querySelector(`.bottomsheet-container`) as HTMLElement);
 
     setTimeout(() => {
-      (bottomsheet.querySelector(`.bottomsheet-container`) as HTMLElement).style.bottom = '0';
-    }, 1,
-      (validSoure) ? this.httpReq(`${this.source}`, {
-        mode: 'no-cors',
-        method: 'get'
-      }, bottomsheet) : this.projectTemplate(bottomsheet)
-    );
+      this.bottomSheetContainer.style.bottom = '0';
+    }, 1, this.templateInsertion(validSoure));
 
-    this.registerCloseEvent(bottomsheet);
-
+    this.eventRegistration();
   }
 
-  protected registerCloseEvent(bottomsheet: HTMLElement) {
-    (bottomsheet.querySelector('.bt-close') as HTMLElement).addEventListener('click', () => {
-      setTimeout(() => {
-        if (this.options.onClose) { this.options.onClose.call(this) };
-        bottomsheet.remove();
-        sheetInstanceIndex--;
-      }, 500, (bottomsheet.querySelector(`.bottomsheet-container`) as HTMLElement).removeAttribute('style'));
-    });
+  private templateInsertion(validSoure: boolean) {
+    if (validSoure) {
+      this.httpReq(`${this.source}`, { mode: 'no-cors', method: 'get' }, this.bottomSheetContainer);
+    } else {
+      this.insertTemplate(this.bottomSheetContainer)
+    }
   }
 
-  protected projectTemplate(bottomsheet: HTMLElement) {
+  protected eventRegistration() {
+    (this.bottomSheetContainer.querySelector('.bt-close') as HTMLElement).addEventListener('click', () => { this.close() });
+
+    if (this.options.overlayClick) {
+      this.bottomSheetContainer.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+      this.bottomSheet.addEventListener('click', () => { this.close() });
+    }
+  }
+
+  private close() {
+    setTimeout(() => {
+      if (this.options.onClose) { this.options.onClose.call(this) };
+      this.bottomSheet.remove();
+      sheetInstanceIndex--;
+    }, 500, this.bottomSheetContainer.removeAttribute('style'));
+  }
+
+  protected insertTemplate(bottomsheet: HTMLElement) {
     const templateContent = (document.querySelector(`template[bottom-sheet-ref="${this.source}"]`) as HTMLElement);
     (bottomsheet.querySelector(`.view-container`) as HTMLElement).innerHTML = templateContent.innerHTML;
   }

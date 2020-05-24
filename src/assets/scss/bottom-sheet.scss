@@ -8,9 +8,9 @@ bottomsheet {
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
   background: rgba(0,0,0,.288);
-  -webkit-transition: background 0.5s ease-in;
-  -ms-transition: background 0.5s ease-in;
-  transition: background 0.5s ease-in;
+  -webkit-transition: background 0.2s ease-in;
+  -ms-transition: background 0.2s ease-in;
+  transition: background 0.2s ease-in;
 }
 
 .bottomsheet-container {
@@ -32,7 +32,7 @@ bottomsheet {
   left: 0;
   right: 0;
   margin: auto;
-  transition: all 0.7s ease-in;
+  transition: all 0.4s ease-in;
 }
 
 *[bottomsheet-close] {
